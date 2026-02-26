@@ -1,0 +1,50 @@
+name: "Node CI Pipeline"
+description: "Reusable Node.js CI pipeline"
+author: "Akhil"
+
+inputs:
+  node_version:
+    description: "Node version to use"
+    required: true
+
+  run_lint:
+    description: "Run lint step"
+    required: false
+    default: "true"
+
+  run_test:
+    description: "Run test step"
+    required: false
+    default: "true"
+
+  build_command:
+    description: "Build command"
+    required: false
+    default: "npm run build"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node_version }}
+        cache: npm
+
+    - name: Install Dependencies
+      run: npm ci
+      shell: bash
+
+    - name: Lint
+      if: ${{ inputs.run_lint == 'true' }}
+      run: npm run lint
+      shell: bash
+
+    - name: Test
+      if: ${{ inputs.run_test == 'true' }}
+      run: npm test
+      shell: bash
+
+    - name: Build
+      run: ${{ inputs.build_command }}
+      shell: bash
