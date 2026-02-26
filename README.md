@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run Node CI Pipeline
-        uses: akhil/node-ci-composite-action@v1
+        uses: akhil/setupnode@v1
         with:
           node_version: "18"
 ```
@@ -52,7 +52,7 @@ jobs:
 ## 🛠 Example With All Options
 
 ```yaml
-- uses: akhil/node-ci-composite-action@v1
+- uses: akhil/setupnode@v1
   with:
     node_version: "20"
     run_lint: "true"
